@@ -147,12 +147,16 @@ const char MAIN_page[] PROGMEM = R"=====(
   
   <body>
     <div class="topnav">
-      <h3>ESP32 LORA RA-02 WEB SERVER</h3>
+      <h1>KANTIPUR CITY COLLEGE EXHIBITION 2025</h1>
+      <H2>PUTALISADAK, KATHMANDU</H2>
+      <h3>ESP32 LORA WEB SERVER</h3>
+
     </div>
     
     <br>
     
     <!-- __ DISPLAYS MONITORING AND CONTROLLING ____________________________________________________________________________________________ -->
+    <marquee> <h2>Project Designed by Santosh, Saraswoti, Surya and Salim</h2> </marquee>
     <div class="content">
       <div class="cards">
         
@@ -216,62 +220,20 @@ const char MAIN_page[] PROGMEM = R"=====(
         </div>
         <!-- ======================================================================================================= -->
         
-        <!-- == ESP32 Slave 2 Monitoring And Controlling =========================================================== -->
-        <div class="card">
-          <div class="card header">
-            <h3 style="font-size: 1.2rem;">ESP32 SLAVE 2</h3>
-          </div>
+
           
-          <!-- Displays the humidity and temperature values received from Slave 2. *** -->
-          <h4 class="temperatureColor"><i class="fas fa-thermometer-half"></i> TEMPERATURE</h4>
-          <p class="temperatureColor"><span class="reading"><span id="temp_Slave_2"></span> &deg;C</span></p>
-          <h4 class="humidityColor"><i class="fas fa-tint"></i> HUMIDITY</h4>
-          <p class="humidityColor"><span class="reading"><span id="humd_Slave_2"></span> &percnt;</span></p>
           <!-- *********************************************************************** -->
           
-          <!-- Buttons for controlling the LEDs on Slave 2. ************************** -->
-          <div style="position:relative;">
-            <div style="position:relative; float: left;top: 3px;width: 47%; left: 0px;text-align: right;">
-              <span class="LEDColor" style="font-weight:bold;"><i class="fas fa-lightbulb"></i> LED 1 : </span>
-            </div>
-            <div style="position:relative; float: right; width: 51%; right: 0px;">
-              <div style="position:relative; float: left;">
-                <label class="switch">
-                  <input type="checkbox" id="togLED_1_Slave_2" onclick="send_LED_State('togLED_1_Slave_2','S2','1')">
-                  <div class="sliderTS"></div>
-                </label>
-              </div>
-              <div class="tooltip" style="float: left; margin-left: 8px;">
-                <span class="tooltiptext">Invert the toggle button state.</span>
-                <button type="button" onclick="change_TglBtn_Checked('togLED_1_Slave_2')" style="height: 24px; line-height: 24px; font-size: 13px; display: inline-flex; align-items: center;">&#8644;</button>
-              </div>
-            </div>
-            
-            <div style="position:relative;float: left;top: 18px;width: 47%;left: 0px; text-align: right;">
-              <span class="LEDColor" style="font-weight:bold;"><i class="fas fa-lightbulb"></i> LED 2 : </span>
-            </div>
-            <div style="position:relative; float: right;width: 51%;right: 0px;top: 5px;">
-              <div style="position:relative;float: left;">
-                <label class="switch">
-                  <input type="checkbox" id="togLED_2_Slave_2" onclick="send_LED_State('togLED_2_Slave_2','S2','2')">
-                  <div class="sliderTS"></div>
-                </label>
-              </div>
-              <div class="tooltip" style="float: left; margin-left: 8px;">
-                <span class="tooltiptext">Invert the toggle button state.</span>
-                <button type="button" onclick="change_TglBtn_Checked('togLED_2_Slave_2')" style="height: 24px; line-height: 24px; font-size: 13px; display: inline-flex; align-items: center;">&#8644;</button>
-              </div>
-            </div>
-          </div>
+ 
           <!-- *********************************************************************** -->
           
-          <br><br><br><br>
+  
           
           <!-- Shows other information received from Slave 2. ************************ -->
-          <p class="statusreadColor"><b><span>Last time to receive data : </span><span id="LTRD_Slave_2"></span></b></p>
-          <p class="statusreadColor"><span>Status Read Sensor DHT11 : </span><span id="status_read_DHT11_Slave_2"></span></p>
-          <p class="statusreadColor"><span>LED 1 State : </span><span id="LED_1_State_Slave_2"></span></p>
-          <p class="statusreadColor"><span>LED 2 State : </span><span id="LED_2_State_Slave_2"></span></p>
+
+
+
+
           <!-- *********************************************************************** -->
         </div>  
         <!-- ======================================================================================================= -->
