@@ -145,11 +145,15 @@ const char MAIN_page[] PROGMEM = R"=====(
   
   <body>
     <div class="topnav">
+      <h1>KANTIPUR CITY COLLEGE EXHIBITION 2025</h3>
+      <h2>PUTALISADAK, KATHMANDU</h2>
       <h3>ESP32 LORA RA-02 WEB SERVER</h3>
+        
     </div>
-    
+   
     <br>
-    
+   <marquee> <h2>Project Designed by Santosh, Saraswoti, Surya and Salim</h2> </marquee
+
     <!-- __ DISPLAYS MONITORING AND CONTROLLING ____________________________________________________________________________________________ -->
     <div class="content">
       <div class="cards">

@@ -1,5 +1,5 @@
 
-//>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> ESP32 Lora Ra-02 Master Web Server AP MODE
+//>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> ESP32 Lora Ra-02 Master Web Server STA MODE
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //  --------------------------------------                                                                                                            //
@@ -101,13 +101,9 @@
 #define dio0 2
 //----------------------------------------
 
-//---------------------------------------- Access Point Declaration and Configuration.
-const char* ssid = "ESP32_WS";  //--> access point name
-const char* password = "password"; //--> access point password
-
-IPAddress local_ip(192,168,1,1);
-IPAddress gateway(192,168,1,1);
-IPAddress subnet(255,255,255,0);
+//---------------------------------------- Variable declaration for your network credentials.
+const char* ssid = "WorldLink Communications";
+const char* password = "9848778963salim@9848k";
 //----------------------------------------
 
 //---------------------------------------- Variable declaration to hold incoming and outgoing data.
@@ -399,25 +395,45 @@ void setup() {
   }
   //---------------------------------------- 
 
- //---------------------------------------- Set Wifi to AP mode
+  //---------------------------------------- Set Wifi to STA mode
   Serial.println();
   Serial.println("-------------");
-  Serial.println("WIFI mode : AP");
-  WiFi.mode(WIFI_AP);
+  Serial.println("WIFI mode : STA");
+  WiFi.mode(WIFI_STA);
   Serial.println("-------------");
   //---------------------------------------- 
 
   delay(100);
-//---------------------------------------- Setting up ESP32 to be an Access Point.
-  Serial.println();
-  Serial.println("-------------");
-  Serial.println("Setting up ESP32 to be an Access Point.");
-  WiFi.softAP(ssid, password); //--> Creating Access Points
-  delay(1000);
-  Serial.println("Setting up ESP32 softAPConfig.");
-  WiFi.softAPConfig(local_ip, gateway, subnet);
-  Serial.println("-------------");
-  //----------------------------------------
+
+  //---------------------------------------- Connect to Wi-Fi (STA).
+  Serial.println("------------");
+  Serial.println("WIFI STA");
+  Serial.print("Connecting to ");
+  Serial.println(ssid);
+  WiFi.begin(ssid, password);
+  
+  //:::::::::::::::::: The process of connecting ESP32 with WiFi Hotspot / WiFi Router.
+  // The process timeout of connecting ESP32 with WiFi Hotspot / WiFi Router is 20 seconds.
+  // If within 20 seconds the ESP32 has not been successfully connected to WiFi, the ESP32 will restart.
+  // I made this condition because on my ESP32, there are times when it seems like it can't connect to WiFi, so it needs to be restarted to be able to connect to WiFi.
+  
+  int connecting_process_timed_out = 20; //--> 20 = 20 seconds.
+  connecting_process_timed_out = connecting_process_timed_out * 2;
+  while (WiFi.status() != WL_CONNECTED) {
+    Serial.print(".");
+    delay(500);
+    if(connecting_process_timed_out > 0) connecting_process_timed_out--;
+    if(connecting_process_timed_out == 0) {
+      delay(1000);
+      ESP.restart();
+    }
+  }
+  
+  Serial.println("");
+  Serial.println("WiFi connected");
+  Serial.println("------------");
+  //:::::::::::::::::: 
+  //---------------------------------------- 
 
   delay(500);
 
@@ -492,14 +508,11 @@ void setup() {
   // Calls the Rst_LORA() subroutine.
   Rst_LORA();
 
-   Serial.println();
-  Serial.println("------------");
-  Serial.print("SSID name : ");
-  Serial.println(ssid);
-  Serial.print("IP address : ");
-  Serial.println(WiFi.softAPIP());
   Serial.println();
-  Serial.println("Connect your computer or mobile Wifi to the SSID above.");
+  Serial.println("------------");
+  Serial.print("ESP32 IP address : ");
+  Serial.println(WiFi.localIP());
+  Serial.println();
   Serial.println("Visit the IP Address above in your browser to open the main page.");
   Serial.println("------------");
   Serial.println();
