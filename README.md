@@ -84,6 +84,17 @@ void loop() {
 
 
 
+## 📺 Recommended Video Tutorials
+
+- [ESP32 with LoRa Communication](https://www.youtube.com/watch?v=fOK3zN7rK6k)
+- [ESP32 with DHT11/DHT22 Sensor](https://www.youtube.com/watch?v=PBK5lEc7LMc)
+- [Build LoRa Weather Station](https://www.youtube.com/watch?v=qxFJyHRV2PI)
+- [LoRa Beginner Tutorial](https://www.youtube.com/watch?v=x0cWiG1bW0Y)
+
+---
+
+
+
 ---
 ##
 **Youtube playlist
