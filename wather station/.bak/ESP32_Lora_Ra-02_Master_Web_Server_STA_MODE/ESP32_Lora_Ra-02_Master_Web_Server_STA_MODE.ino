@@ -102,8 +102,8 @@
 //----------------------------------------
 
 //---------------------------------------- Variable declaration for your network credentials.
-const char* ssid = "esp32";
-const char* password = "esp32test123";
+const char* ssid = "WorldLink Communications";
+const char* password = "9848778963salim@9848k";
 //----------------------------------------
 
 //---------------------------------------- Variable declaration to hold incoming and outgoing data.
