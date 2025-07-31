@@ -38,9 +38,9 @@ String LED_State = "";
 // PLEASE UNCOMMENT AND SELECT ONE OF THE "LocalAddress" VARIABLES BELOW. //
 ////////////////////////////////////////////////////////////////////////////
 
-byte LocalAddress = 0x02;       //--> address of this device (Slave 1).
-//byte LocalAddress = 0x03;       //--> address of this device (Slave 2).
-byte Destination_Master = 0x01; //--> destination to send to Master (ESP32).
+byte LocalAddress = 0x05;       //--> address of this device (Slave 1).
+//byte LocalAddress = 0x06;       //--> address of this device (Slave 2).
+byte Destination_Master = 0x04; //--> destination to send to Master (ESP32).
 //----------------------------------------
 
 //---------------------------------------- Variable declarations for the reading status of the DHT11 sensor, temperature and humidity values.

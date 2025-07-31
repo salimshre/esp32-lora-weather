@@ -1,5 +1,5 @@
 
-//>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> ESP32 Lora Ra-02 Master Web Server STA MODE
+//>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> ESP32 Lora Ra-02 Master Web Server AP MODE
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //  --------------------------------------                                                                                                            //
@@ -21,9 +21,9 @@
 //      message_content         = message content in the form of characters (String). In this mode this section is empty/NULL.                        //
 //                                                                                                                                                    //
 //      For example, send a message to Slave 1:                                                                                                       //
-//      "0x02 | 0x01 | NULL | 1 | NULL"                                                                                                               //
-//      0x02  = address of Slave 1.                                                                                                                   //
-//      0x01  = Master address.                                                                                                                       //
+//      "0x05 | 0x04 | NULL | 1 | NULL"                                                                                                               //
+//      0x05  = address of Slave 1.                                                                                                                   //
+//      0x04  = Master address.                                                                                                                       //
 //      1     = "get_Data_Mode". Notifies the intended Slave (for example Slave 1) to send a reply message containing the humidity value,             //
 //              temperature value, state of LED 1 and LED 2.                                                                                          //
 //    > After the message is received by the intended Slave (Slave 1 or Slave 2). Then the slave will send a reply message containing:                //
@@ -34,9 +34,9 @@
 //      message_content         = message content in the form of characters (String).                                                                 //
 //                                                                                                                                                    //
 //      For example, Slave 1 sends a reply message to Master:                                                                                         //
-//      "0x01 | 0x02 | 14 | s,80,30,50,0,1"                                                                                                           //
-//      0x01            = Master address.                                                                                                             //
-//      0x02            = address of Slave 1.                                                                                                         //
+//      "0x04 | 0x05 | 14 | s,80,30,50,0,1"                                                                                                           //
+//      0x04            = Master address.                                                                                                             //
+//      0x05            = address of Slave 1.                                                                                                         //
 //      14              = total number of "characters" in the message sent. The content of the message sent is: "s,80,30.50,0,1" ,                    //
 //                        the total number of characters is 14 characters.                                                                            //
 //      s,80,30.50,0,1  = data.                                                                                                                       //
@@ -59,9 +59,9 @@
 //    message_content         = message content in the form of characters (String).                                                                   //
 //                                                                                                                                                    //
 //    For example, send a message to Slave 1:                                                                                                         //
-//    "0x02 | 0x01 | 3 | 2 | 1,t"                                                                                                                     //
-//    0x02  = address of Slave 1.                                                                                                                     //
-//    0x01  = Master address.                                                                                                                         //
+//    "0x05 | 0x04 | 3 | 2 | 1,t"                                                                                                                     //
+//    0x05  = address of Slave 1.                                                                                                                     //
+//    0x04  = Master address.                                                                                                                         //
 //    3     = total number of "characters" in the message sent. The content of the message sent is: "1,1" ,                                           //
 //            the total number of characters is 3 characters.                                                                                         //
 //    2     = "led_Control_Mode". Notifies the intended Slave (for example Slave 1) that a message was sent to control the LED.                       //
@@ -101,9 +101,13 @@
 #define dio0 2
 //----------------------------------------
 
-//---------------------------------------- Variable declaration for your network credentials.
-const char* ssid = "esp32";
-const char* password = "esp32test123";
+//---------------------------------------- Access Point Declaration and Configuration.
+const char* ssid = "WEATHER_STATION";  //--> access point name
+const char* password = "password"; //--> access point password
+
+IPAddress local_ip(192,168,1,1);
+IPAddress gateway(192,168,1,1);
+IPAddress subnet(255,255,255,0);
 //----------------------------------------
 
 //---------------------------------------- Variable declaration to hold incoming and outgoing data.
@@ -112,9 +116,9 @@ String Message = "";
 //----------------------------------------
 
 //---------------------------------------- LoRa data transmission configuration.
-byte LocalAddress = 0x01;               //--> address of this device (Master Address).
-byte Destination_ESP32_Slave_1 = 0x02;  //--> destination to send to Slave 1 (ESP32).
-byte Destination_ESP32_Slave_2 = 0x03;  //--> destination to send to Slave 2 (ESP32).
+byte LocalAddress = 0x04;               //--> address of this device (Master Address).
+byte Destination_ESP32_Slave_1 = 0x05;  //--> destination to send to Slave 1 (ESP32).
+byte Destination_ESP32_Slave_2 = 0x06;  //--> destination to send to Slave 2 (ESP32).
 const byte get_Data_Mode = 1;           //--> Mode to get the reading status of the DHT11 sensor, humidity value, temperature value, state of LED 1 and LED 2.
 const byte led_Control_Mode = 2;        //--> Mode to control LED 1 and LED 2 on the targeted Slave.
 //---------------------------------------- 
@@ -395,45 +399,25 @@ void setup() {
   }
   //---------------------------------------- 
 
-  //---------------------------------------- Set Wifi to STA mode
+ //---------------------------------------- Set Wifi to AP mode
   Serial.println();
   Serial.println("-------------");
-  Serial.println("WIFI mode : STA");
-  WiFi.mode(WIFI_STA);
+  Serial.println("WIFI mode : AP");
+  WiFi.mode(WIFI_AP);
   Serial.println("-------------");
   //---------------------------------------- 
 
   delay(100);
-
-  //---------------------------------------- Connect to Wi-Fi (STA).
-  Serial.println("------------");
-  Serial.println("WIFI STA");
-  Serial.print("Connecting to ");
-  Serial.println(ssid);
-  WiFi.begin(ssid, password);
-  
-  //:::::::::::::::::: The process of connecting ESP32 with WiFi Hotspot / WiFi Router.
-  // The process timeout of connecting ESP32 with WiFi Hotspot / WiFi Router is 20 seconds.
-  // If within 20 seconds the ESP32 has not been successfully connected to WiFi, the ESP32 will restart.
-  // I made this condition because on my ESP32, there are times when it seems like it can't connect to WiFi, so it needs to be restarted to be able to connect to WiFi.
-  
-  int connecting_process_timed_out = 20; //--> 20 = 20 seconds.
-  connecting_process_timed_out = connecting_process_timed_out * 2;
-  while (WiFi.status() != WL_CONNECTED) {
-    Serial.print(".");
-    delay(500);
-    if(connecting_process_timed_out > 0) connecting_process_timed_out--;
-    if(connecting_process_timed_out == 0) {
-      delay(1000);
-      ESP.restart();
-    }
-  }
-  
-  Serial.println("");
-  Serial.println("WiFi connected");
-  Serial.println("------------");
-  //:::::::::::::::::: 
-  //---------------------------------------- 
+//---------------------------------------- Setting up ESP32 to be an Access Point.
+  Serial.println();
+  Serial.println("-------------");
+  Serial.println("Setting up ESP32 to be an Access Point.");
+  WiFi.softAP(ssid, password); //--> Creating Access Points
+  delay(1000);
+  Serial.println("Setting up ESP32 softAPConfig.");
+  WiFi.softAPConfig(local_ip, gateway, subnet);
+  Serial.println("-------------");
+  //----------------------------------------
 
   delay(500);
 
@@ -508,11 +492,14 @@ void setup() {
   // Calls the Rst_LORA() subroutine.
   Rst_LORA();
 
-  Serial.println();
+   Serial.println();
   Serial.println("------------");
-  Serial.print("ESP32 IP address : ");
-  Serial.println(WiFi.localIP());
+  Serial.print("SSID name : ");
+  Serial.println(ssid);
+  Serial.print("IP address : ");
+  Serial.println(WiFi.softAPIP());
   Serial.println();
+  Serial.println("Connect your computer or mobile Wifi to the SSID above.");
   Serial.println("Visit the IP Address above in your browser to open the main page.");
   Serial.println("------------");
   Serial.println();

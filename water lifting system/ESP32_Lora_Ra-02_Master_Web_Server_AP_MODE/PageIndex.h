@@ -2,7 +2,7 @@ const char MAIN_page[] PROGMEM = R"=====(
 <!DOCTYPE HTML>
 <html>
   <head>
-    <title>Water Lifting System</title>
+    <title>REMOTE AREA WEATHER STATION WEB SERVER</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <style>
       html {font-family: Arial; display: inline-block; text-align: center;}
@@ -11,8 +11,8 @@ const char MAIN_page[] PROGMEM = R"=====(
       body {margin: 0;}
       .topnav {overflow: hidden; background-color: #00878F; color: white; font-size: 1.2rem;}
       .content {padding: 5px; }
-      .card {background-color: white; box-shadow: 0px 0px 10px 1px rgba(140,140,140,.5); border: 1px solid #00878f; border-radius: 15px;}
-      .card.header {background-color: #00878f; color: white; border-bottom-right-radius: 0px; border-bottom-left-radius: 0px; border-top-right-radius: 12px; border-top-left-radius: 12px;}
+      .card {background-color: white; box-shadow: 0px 0px 10px 1px rgba(140,140,140,.5); border: 1px solid #00878F; border-radius: 15px;}
+      .card.header {background-color: #00878F; color: white; border-bottom-right-radius: 0px; border-bottom-left-radius: 0px; border-top-right-radius: 12px; border-top-left-radius: 12px;}
       .cards {max-width: 700px; margin: 0 auto; display: grid; grid-gap: 2rem; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));}
       .reading {font-size: 1.3rem;}
       .packet {color: #bebebe;}
@@ -145,29 +145,28 @@ const char MAIN_page[] PROGMEM = R"=====(
   
   <body>
     <div class="topnav">
-      <h1>KANTIPUR CITY COLLEGE EXHIBITION 2025</h3>
-      <h2>PUTALISADAK, KATHMANDU</h2>
-      <h3>Water Lifting Web Server</h3>
-        
+      <h3>KANTIPUR CITY COLLEGE EXHIBITION 2025
+      <br>
+      PUTALISADAK, KATHMANDU
+      </h3>
     </div>
-   
+    
     <br>
-   <h2>Project Designed by Asim, Hulas, Ronish and ohm prakash</h2>
-
+    <div>Project Designed by Santosh, Saraswoti, Surya and Salim</div>
     <!-- __ DISPLAYS MONITORING AND CONTROLLING ____________________________________________________________________________________________ -->
     <div class="content">
       <div class="cards">
         
         <!-- == ESP32 Slave 1 Monitoring And Controlling =========================================================== -->
-        <!-- <div class="card">
+        <div class="card">
           <div class="card header">
             <h3 style="font-size: 1.2rem;">ESP32 SLAVE 1</h3>
           </div>
           
           <!-- Displays the humidity and temperature values received from Slave 1. *** -->
-          <!-- <h4 class="temperatureColor">TEMPERATURE</h4> -->
+          <h4 class="temperatureColor">TEMPERATURE</h4>
           <p class="temperatureColor"><span class="reading"><span id="temp_Slave_1"></span> &deg;C</span></p>
-          <!-- <h4 class="humidityColor">HUMIDITY</h4> -->
+          <h4 class="humidityColor">HUMIDITY</h4>
           <p class="humidityColor"><span class="reading"><span id="humd_Slave_1"></span> &percnt;</span></p>
           <!-- *********************************************************************** -->
           
@@ -215,49 +214,49 @@ const char MAIN_page[] PROGMEM = R"=====(
           <p class="statusreadColor"><span>LED 1 State : </span><span id="LED_1_State_Slave_1"></span></p>
           <p class="statusreadColor"><span>LED 2 State : </span><span id="LED_2_State_Slave_1"></span></p>
           <!-- *********************************************************************** -->
-        </div> -->
+        </div>
         <!-- ======================================================================================================= -->
         
         <!-- == ESP32 Slave 2 Monitoring And Controlling =========================================================== -->
         <div class="card">
           <div class="card header">
-            <!-- <h3 style="font-size: 1.2rem;">ESP32 SLAVE 2</h3> -->
+            <h3 style="font-size: 1.2rem;">ESP32 SLAVE 2</h3>
           </div>
           
           <!-- Displays the humidity and temperature values received from Slave 2. *** -->
-          <!-- <h4 class="temperatureColor">TEMPERATURE</h4> -->
-          <!-- <p class="temperatureColor"><span class="reading"><span id="temp_Slave_2"></span> &deg;C</span></p>
+          <h4 class="temperatureColor">TEMPERATURE</h4>
+          <p class="temperatureColor"><span class="reading"><span id="temp_Slave_2"></span> &deg;C</span></p>
           <h4 class="humidityColor">HUMIDITY</h4>
-          <p class="humidityColor"><span class="reading"><span id="humd_Slave_2"></span> &percnt;</span></p> -->
+          <p class="humidityColor"><span class="reading"><span id="humd_Slave_2"></span> &percnt;</span></p>
           <!-- *********************************************************************** -->
           
           <!-- Buttons for controlling the LEDs on Slave 2. ************************** -->
           <div style="position:relative;">
-            <!-- <div style="position:relative; float: left;top: 3px;width: 47%; left: 0px;text-align: right;">
+            <div style="position:relative; float: left;top: 3px;width: 47%; left: 0px;text-align: right;">
               <span class="LEDColor" style="font-weight:bold;">LED 1 : </span>
-            </div> -->
+            </div>
             <div style="position:relative; float: right; width: 51%; right: 0px;">
               <div style="position:relative; float: left;">
-                <!-- <label class="switch">
+                <label class="switch">
                   <input type="checkbox" id="togLED_1_Slave_2" onclick="send_LED_State('togLED_1_Slave_2','S2','1')">
                   <div class="sliderTS"></div>
-                </label> -->
+                </label>
               </div>
-              <!-- <div class="tooltip" style="float: left; margin-left: 8px;">
+              <div class="tooltip" style="float: left; margin-left: 8px;">
                 <span class="tooltiptext">Invert the toggle button state.</span>
                 <button type="button" onclick="change_TglBtn_Checked('togLED_1_Slave_2')" style="height: 24px; line-height: 24px; font-size: 13px; display: inline-flex; align-items: center;">&#8644;</button>
-              </div> -->
+              </div>
             </div>
             
-            <!-- <div style="position:relative;float: left;top: 18px;width: 47%;left: 0px; text-align: right;">
+            <div style="position:relative;float: left;top: 18px;width: 47%;left: 0px; text-align: right;">
               <span class="LEDColor" style="font-weight:bold;">LED 2 : </span>
-            </div> -->
+            </div>
             <div style="position:relative; float: right;width: 51%;right: 0px;top: 5px;">
               <div style="position:relative;float: left;">
-    <!--             <label class="switch">
+                <label class="switch">
                   <input type="checkbox" id="togLED_2_Slave_2" onclick="send_LED_State('togLED_2_Slave_2','S2','2')">
                   <div class="sliderTS"></div>
-                </label> -->
+                </label>
               </div>
               <div class="tooltip" style="float: left; margin-left: 8px;">
                 <span class="tooltiptext">Invert the toggle button state.</span>
