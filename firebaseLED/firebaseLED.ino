@@ -1,88 +1,89 @@
 #include <WiFi.h>
 #include <Firebase_ESP_Client.h>
 
-/* 1. Define the WiFi credentials */
-#define WIFI_SSID "WorldLink Communications"
-#define WIFI_PASSWORD "9848778963salim@9848k"
+/* 1. Wi-Fi credentials */
+#define WIFI_SSID "esp32"
+#define WIFI_PASSWORD "esp32test123"
 
-/* 2. Define the API Key */
+/* 2. Firebase project credentials */
 #define API_KEY "Sf0uDBl3Wn0ZuOKYvDQN9gL47eN4fiW0dVnu4Cka"
-
-/* 3. Define the RTDB URL */
-#define DATABASE_URL "https://esp32-2bd75-default-rtdb.firebaseio.com/" 
-
-/* 4. Define the user Email and password that alreadey registerd or added in your project */
+#define DATABASE_URL "https://esp32-2bd75-default-rtdb.firebaseio.com/"
 #define USER_EMAIL "salim9shrestha@gmail.com"
 #define USER_PASSWORD "salim@5678"
 
-// Define Firebase Data object
+/* 3. Firebase objects */
 FirebaseData fbdo;
-
 FirebaseAuth auth;
 FirebaseConfig config;
 
-unsigned long sendDataPrevMillis = 0;
+const int ledPin = 4;  // D4 = GPIO4
+unsigned long lastUpdate = 0;
+bool firebaseReady = false;
 
-const int ledPin = 4;
+void setup() {
+  Serial.begin(115200);
 
-void setup()
-{
+  // Initialize LED pin
   pinMode(ledPin, OUTPUT);
   digitalWrite(ledPin, LOW);
+  Serial.println("🔌 Starting ESP32...");
 
-  Serial.begin(115200);
+  // Connect to Wi-Fi
+  Serial.print("📡 Connecting to Wi-Fi: ");
+  Serial.println(WIFI_SSID);
   WiFi.begin(WIFI_SSID, WIFI_PASSWORD);
-
-  Serial.print("Connecting to Wi-Fi");
-  while (WiFi.status() != WL_CONNECTED)
-  {
+  while (WiFi.status() != WL_CONNECTED) {
     Serial.print(".");
     delay(300);
   }
-  Serial.println();
-  Serial.print("Connected with IP: ");
+  Serial.println("\n✅ Wi-Fi connected");
+  Serial.print("🧠 IP address: ");
   Serial.println(WiFi.localIP());
-  Serial.println();
 
-  /* Assign the api key (required) */
+  // Firebase config
   config.api_key = API_KEY;
-
-  /* Assign the user sign in credentials */
+  config.database_url = DATABASE_URL;
   auth.user.email = USER_EMAIL;
   auth.user.password = USER_PASSWORD;
 
-  /* Assign the RTDB URL (required) */
-  config.database_url = DATABASE_URL;
-
-  // Comment or pass false value when WiFi reconnection will control by your code or third party library e.g. WiFiManager
   Firebase.reconnectNetwork(true);
-
-  // Since v4.4.x, BearSSL engine was used, the SSL buffer need to be set.
-  // Large data transmission may require larger RX buffer, otherwise connection issue or data read time out can be occurred.
-  fbdo.setBSSLBufferSize(4096 /* Rx buffer size in bytes from 512 - 16384 */, 1024 /* Tx buffer size in bytes from 512 - 16384 */);
-
-  // Limit the size of response payload to be collected in FirebaseData
+  fbdo.setBSSLBufferSize(4096, 1024);
   fbdo.setResponseSize(2048);
+  config.timeout.serverResponse = 10000; // 10 seconds
 
+  // Begin Firebase
   Firebase.begin(&config, &auth);
-
-  Firebase.setDoubleDigits(5);
-
-  config.timeout.serverResponse = 10 * 1000;
+  Serial.println("🔁 Initializing Firebase...");
 }
 
-void loop()
-{
-  // Firebase.ready() should be called repeatedly to handle authentication tasks.
-  if (Firebase.ready() && (millis() - sendDataPrevMillis > 1000 || sendDataPrevMillis == 0))
-  {
-    sendDataPrevMillis = millis();
+void loop() {
+  // Check Firebase readiness
+  if (!firebaseReady && Firebase.ready()) {
+    firebaseReady = true;
+    Serial.println("✅ Firebase authenticated and ready!");
+    Serial.println("🚀 ESP32 is connected to Firebase Realtime Database!");
+  }
 
-  int ledState;
-   if(Firebase.RTDB.getInt(&fbdo, "/led/state", &ledState)){
-    digitalWrite(ledPin, ledState);
-   }else{
-    Serial.println(fbdo.errorReason().c_str());
-   }
+  // If Firebase is not ready
+  if (!Firebase.ready()) {
+    Serial.println("⛔ Firebase not ready or connection lost!");
+    delay(1000); // avoid spamming logs
+    return;
+  }
+
+  // Poll Firebase every 500ms
+  if (firebaseReady && millis() - lastUpdate > 500) {
+    lastUpdate = millis();
+
+    Serial.println("🔄 Checking Firebase for /led/state...");
+
+    if (Firebase.RTDB.getInt(&fbdo, "/led/state")) {
+      int ledState = fbdo.intData();
+      digitalWrite(ledPin, ledState ? HIGH : LOW);
+      Serial.println("💡 LED state from Firebase: " + String(ledState ? "ON" : "OFF"));
+    } else {
+      Serial.print("❌ Firebase error: ");
+      Serial.println(fbdo.errorReason());
+    }
   }
 }
