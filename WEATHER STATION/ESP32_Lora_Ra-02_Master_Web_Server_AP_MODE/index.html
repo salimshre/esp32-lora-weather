@@ -1,3 +1,4 @@
+<!-- PageIndex.h: Only Slave 1 UI retained and fully functional -->
 const char MAIN_page[] PROGMEM = R"=====(
 <!DOCTYPE HTML>
 <html>
@@ -9,10 +10,10 @@ const char MAIN_page[] PROGMEM = R"=====(
       p {font-size: 1.2rem;}
       h4 {font-size: 0.8rem;}
       body {margin: 0;}
-      .topnav {overflow: hidden; background-color: #c70a33; color: white; font-size: 1.2rem;}
+      .topnav {overflow: hidden; background-color: #db0fb3; color: white; font-size: 1.2rem;}
       .content {padding: 5px; }
-      .card {background-color: white; box-shadow: 0px 0px 10px 1px rgba(140,140,140,.5); border: 1px solid #c70a33; border-radius: 15px;}
-      .card.header {background-color: #c70a33; color: white; border-bottom-right-radius: 0px; border-bottom-left-radius: 0px; border-top-right-radius: 12px; border-top-left-radius: 12px;}
+      .card {background-color: white; box-shadow: 0px 0px 10px 1px rgba(140,140,140,.5); border: 1px solid #db0fb3; border-radius: 15px;}
+      .card.header {background-color: #db0fb3; color: white; border-bottom-right-radius: 0px; border-bottom-left-radius: 0px; border-top-right-radius: 12px; border-top-left-radius: 12px;}
       .cards {max-width: 700px; margin: 0 auto; display: grid; grid-gap: 2rem; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));}
       .reading {font-size: 1.3rem;}
       .packet {color: #bebebe;}
@@ -20,23 +21,29 @@ const char MAIN_page[] PROGMEM = R"=====(
       .humidityColor {color: #1b78e2;}
       .statusreadColor {color: #702963; font-size:12px;}
       .LEDColor {color: #183153;}
+      .logo-container {margin-top: 10px;}
+      .logo-container img {width: 100px; height: auto;}
     </style>
   </head>
   <body>
     <div class="topnav">
       <h3>KANTIPUR CITY COLLEGE EXHIBITION 2025<br>PUTALISADAK, KATHMANDU</h3>
     </div>
+    <div class="logo-container">
+      <img src="/logo.png" alt="KCC Logo">
+    </div>
     <br>
-    
+    <div>Project Designed by Santosh, Saraswoti, Surya and Salim</div>
     <div class="content">
       <div class="cards">
         <div class="card">
           <div class="card header">
-            <h3 style="font-size: 1.2rem;">water lifting system</h3>
+            <h3 style="font-size: 1.2rem;">ESP32 SLAVE 1</h3>
           </div>
-          <br>
-          
-          
+          <h4 class="temperatureColor">TEMPERATURE</h4>
+          <p class="temperatureColor"><span class="reading"><span id="temp_Slave_1"></span> &deg;C</span></p>
+          <h4 class="humidityColor">HUMIDITY</h4>
+          <p class="humidityColor"><span class="reading"><span id="humd_Slave_1"></span> &percnt;</span></p>
           <div style="position:relative;">
             <div style="position:relative; float: left;top: 3px;width: 47%;left: 0px;text-align: right;">
               <span class="LEDColor" style="font-weight:bold;">LED 1 : </span>
