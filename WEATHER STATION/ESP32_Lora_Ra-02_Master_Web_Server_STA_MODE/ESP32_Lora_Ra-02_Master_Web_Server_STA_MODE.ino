@@ -21,9 +21,9 @@
 //      message_content         = message content in the form of characters (String). In this mode this section is empty/NULL.                        //
 //                                                                                                                                                    //
 //      For example, send a message to Slave 1:                                                                                                       //
-//      "0x02 | 0x01 | NULL | 1 | NULL"                                                                                                               //
-//      0x02  = address of Slave 1.                                                                                                                   //
-//      0x01  = Master address.                                                                                                                       //
+//      "0x05 | 0x04 | NULL | 1 | NULL"                                                                                                               //
+//      0x05  = address of Slave 1.                                                                                                                   //
+//      0x04  = Master address.                                                                                                                       //
 //      1     = "get_Data_Mode". Notifies the intended Slave (for example Slave 1) to send a reply message containing the humidity value,             //
 //              temperature value, state of LED 1 and LED 2.                                                                                          //
 //    > After the message is received by the intended Slave (Slave 1 or Slave 2). Then the slave will send a reply message containing:                //
@@ -34,9 +34,9 @@
 //      message_content         = message content in the form of characters (String).                                                                 //
 //                                                                                                                                                    //
 //      For example, Slave 1 sends a reply message to Master:                                                                                         //
-//      "0x01 | 0x02 | 14 | s,80,30,50,0,1"                                                                                                           //
-//      0x01            = Master address.                                                                                                             //
-//      0x02            = address of Slave 1.                                                                                                         //
+//      "0x04 | 0x05 | 14 | s,80,30,50,0,1"                                                                                                           //
+//      0x04            = Master address.                                                                                                             //
+//      0x05            = address of Slave 1.                                                                                                         //
 //      14              = total number of "characters" in the message sent. The content of the message sent is: "s,80,30.50,0,1" ,                    //
 //                        the total number of characters is 14 characters.                                                                            //
 //      s,80,30.50,0,1  = data.                                                                                                                       //
@@ -59,9 +59,9 @@
 //    message_content         = message content in the form of characters (String).                                                                   //
 //                                                                                                                                                    //
 //    For example, send a message to Slave 1:                                                                                                         //
-//    "0x02 | 0x01 | 3 | 2 | 1,t"                                                                                                                     //
-//    0x02  = address of Slave 1.                                                                                                                     //
-//    0x01  = Master address.                                                                                                                         //
+//    "0x05 | 0x04 | 3 | 2 | 1,t"                                                                                                                     //
+//    0x05  = address of Slave 1.                                                                                                                     //
+//    0x04  = Master address.                                                                                                                         //
 //    3     = total number of "characters" in the message sent. The content of the message sent is: "1,1" ,                                           //
 //            the total number of characters is 3 characters.                                                                                         //
 //    2     = "led_Control_Mode". Notifies the intended Slave (for example Slave 1) that a message was sent to control the LED.                       //
@@ -102,8 +102,8 @@
 //----------------------------------------
 
 //---------------------------------------- Variable declaration for your network credentials.
-const char* ssid = "WorldLink Communications";
-const char* password = "9848778963salim@9848k";
+const char* ssid = "WEATHER_STATION";
+const char* password = "password";
 //----------------------------------------
 
 //---------------------------------------- Variable declaration to hold incoming and outgoing data.
@@ -112,9 +112,9 @@ String Message = "";
 //----------------------------------------
 
 //---------------------------------------- LoRa data transmission configuration.
-byte LocalAddress = 0x01;               //--> address of this device (Master Address).
-byte Destination_ESP32_Slave_1 = 0x02;  //--> destination to send to Slave 1 (ESP32).
-byte Destination_ESP32_Slave_2 = 0x03;  //--> destination to send to Slave 2 (ESP32).
+byte LocalAddress = 0x04;               //--> address of this device (Master Address).
+byte Destination_ESP32_Slave_1 = 0x05;  //--> destination to send to Slave 1 (ESP32).
+byte Destination_ESP32_Slave_2 = 0x06;  //--> destination to send to Slave 2 (ESP32).
 const byte get_Data_Mode = 1;           //--> Mode to get the reading status of the DHT11 sensor, humidity value, temperature value, state of LED 1 and LED 2.
 const byte led_Control_Mode = 2;        //--> Mode to control LED 1 and LED 2 on the targeted Slave.
 //---------------------------------------- 
